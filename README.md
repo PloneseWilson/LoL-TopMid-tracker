@@ -13,6 +13,6 @@ A non Neural Network image observation tracker that bases on openCV
 4. press 0 on pop-out window to exit
 
 # Default output format
-missing / exist (1) / multiple (more than 2 players)
+missing / exist (1) / multiple (more than 2 players)  
 For detection zone, refer to TopMidZone.png 
  
