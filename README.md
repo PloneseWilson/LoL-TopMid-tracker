@@ -16,3 +16,5 @@ File: only need *code.py*
 missing / exist (1) / multiple (more than 2 players)  
 For detection zone, refer to *TopMidZone.png*
  
+# Known problems
+1. cannot verify red/blue color champions e.g. anivia on red team will be classfied as both red & blue
