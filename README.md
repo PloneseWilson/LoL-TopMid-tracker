@@ -8,8 +8,8 @@ File: only need *code.py*
    a. free to change if you can figure out its position and size
 
 # How to use
-1. open League of Legend, enter a rift game with Blue/Red side
-2. run the python code.py, enter your side
+1. open League of Legend, enter a rift game with blue/red side
+2. run the python code.py, type your side (blue/red) into the terminal
 3. the screen capture should fit the default layout well, you can change settings referring to *parameters.md*
 4. press 0 on pop-out window to exit
 
