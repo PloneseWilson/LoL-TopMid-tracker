@@ -4,8 +4,7 @@ File: only need *code.py*
 
 # Game Settings
 1. Borderless to allow windows to show
-2. Minimap should be placed at Bottom Right
-   a. free to change if you can figure out its position and size
+2. Minimap should be placed at Bottom Right, free to change if you can figure out its position and size
 
 # How to use
 1. open League of Legend, enter a rift game with blue/red side
