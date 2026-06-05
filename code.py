@@ -118,6 +118,7 @@ def annotate_image(img: np.ndarray, circles: list[Circle]) -> np.ndarray:
 def build_lane_alerts(
     circles: list[Circle],
     enemy_color: Literal["blue", "red"],
+    missing_seconds: dict[str, int] | None = None,
 ) -> list[str]:
     """
     Given all detected circles and the enemy color, return alert strings per lane.
@@ -139,17 +140,33 @@ def build_lane_alerts(
     alerts = []
 
     if len(top) == 0:
-        alerts.append("Top: missing")
+        if missing_seconds is not None:
+            missing_seconds["top"] = missing_seconds.get("top", 0) + 1
+            alerts.append(f"Top: missing({missing_seconds['top']}s)")
+        else:
+            alerts.append("Top: missing")
     elif len(top) == 1:
+        if missing_seconds is not None:
+            missing_seconds["top"] = 0
         alerts.append("Top: exist (1)")
     else:
+        if missing_seconds is not None:
+            missing_seconds["top"] = 0
         alerts.append(f"Top: multiple ({len(top)})")
 
     if len(mid) == 0:
-        alerts.append("Mid: missing")
+        if missing_seconds is not None:
+            missing_seconds["mid"] = missing_seconds.get("mid", 0) + 1
+            alerts.append(f"Mid: missing({missing_seconds['mid']}s)")
+        else:
+            alerts.append("Mid: missing")
     elif len(mid) == 1:
+        if missing_seconds is not None:
+            missing_seconds["mid"] = 0
         alerts.append("Mid: exist (1)")
     else:
+        if missing_seconds is not None:
+            missing_seconds["mid"] = 0
         alerts.append(f"Mid: multiple ({len(mid)})")
 
     return alerts
@@ -266,6 +283,8 @@ def run_live_minimap(
         try: cv2.setWindowProperty(win, cv2.WND_PROP_TOPMOST, 1)
         except cv2.error: pass
 
+    missing_seconds = {"top": 0, "mid": 0}
+
     while True:
         start   = time.monotonic()
         minimap = capture_screen_region(left, top, crop_width, crop_height)
@@ -273,7 +292,7 @@ def run_live_minimap(
         circles, _ = detect_and_annotate(minimap)
         shown      = [c for c in circles if enemy_color is None or c.color == enemy_color]
         annotated  = annotate_image(minimap, shown)
-        alerts     = build_lane_alerts(circles, enemy_color or "red")
+        alerts     = build_lane_alerts(circles, enemy_color or "red", missing_seconds)
 
         checked_at = time.strftime("%H:%M:%S")
         status = f"{len(shown)} {enemy_color or 'all'} | {checked_at}"
